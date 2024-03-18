@@ -1,0 +1,34 @@
+Let's look at how CockroachDB uses the Raft protocol to perform writes in a distributed and
+durable manner. This is a required knowledge for anyone who wants to understand where CockroachDB's
+guarantees come from. If you're really interested in the details, follow the links below because this
+is one area where anyone curious can always learn more. Raft is an algorithm that allows a
+distributed set of servers to agree on any values without losing the record of that value, even in
+the face of node failure. CockroachDB uses it to perform all writes. Recall that CockroachDB
+organizes its data into a keyspace divided into ranges and distributes replicas of each range
+throughout the cluster based on the replication factor. For CockroachDB each range defines a
+Raft group. The cluster has seven ranges so there there will be seven Raft groups. Let's look at one
+before we get into the details of Raft, though. CockroachDB has a concept of something called a
+lease which it assigns to one of these replicas called the leaseholder. Its job will be to serve
+reads on its own, bypassing Raft, but also keeping track of write commits, so it knows not to show
+writes until they're durable. Let's put a lease on one of those replicas. Now all reads and writes to
+the range will be sent to that node. Now let's talk about Raft. The first thing to know about
+Raft is that replicas are either leaders or followers. Leaders coordinate the distributed
+write process while followers assist. If a follower doesn't see a heartbeat from a leader, it'll get
+a randomized timeout, declare itself a candidate, and call for an election. Majority vote makes it a
+leader. The process takes seconds. Let's select a leader. I've made the leader the same as the
+leaseholder and while they're different roles in practice, CockroachDB does a good job of keeping
+the lease with the leader for efficiency. So we'll assume that scenario. Writes are kicked off by the
+leaseholder which tells the leader to begin the process. Here's an INSERT. The leader first appends
+the command to its Raft log, which is an ordered set of commands on disk. The leader then proposes
+the write to the followers. Each follower will replicate the command on its own Raft log. I showed
+only one replication so far since that's enough for a majority. Even without hitting the third
+node the write will persist through any single node failure. Consensus has been achieved but the
+leader doesn't know that yet. So the follower has to let it know. At this point, the leader knows the
+Raft command was replicated so it can commit the write and notify the leaseholder to begin showing
+it to readers. Eventually, that write will go to every replica. Let's look at our full cluster with
+a leader for each range to get a big picture sense of things. Here each range has one replicas that's
+its leader and its leaseholder. All SQL operations are routed to the appropriate leaseholders. Reads
+are returned while writes are passed the leaders to start building consensus. So, what have we
+learned? We've seen that the leaseholder ensures that readers only see committed
+writes and that replicas arranged together form a Raft group that elects one leader. We've
+seen how a distributed consensus is achieved for writes. And that's how Raft works in CockroachDB.

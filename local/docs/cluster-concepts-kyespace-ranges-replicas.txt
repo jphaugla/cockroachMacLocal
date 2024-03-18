@@ -1,0 +1,34 @@
+In this lesson we're going to introduce how your data is organized into a single abstract
+data structure and describe how CockroachDB uses that to divide, replicate and distribute
+the data across the cluster. This will give us a framework to understand at a high level how the
+cluster scales out, which is important to everyone because it has performance implications. It'll also
+help to build a conceptual foundation for things to come. First, let's talk about the ordering of
+your data in CockroachDB. Take all of your data and imagine it in a single grand structure we're going
+to call the key space. It's an ordered set of key-value pairs with the full path to each record in
+the key part of each entry, including where it lives and the primary key of the row. For now
+we're abstracting away lots of implementation details like how a table is identified or where
+the indexes fit in, etc. The important thing is that everything we can use to find a record, including
+the primary key, are all part of the key space. The rest of a row's columns are typically put into
+the value part of the KV store and don't affect the ordering. So the key space is all of this with
+additional metadata, all together in a grand order data structure. For a single node cluster, the key
+space is a fairly accurate description of how the data is actually organized by the storage layer,
+but in a production cluster, the implementation gets complicated. The reason why it's a useful
+abstraction is because the cluster divides the key space into what we call ranges. When a range grows
+beyond a certain limit, 64 megabytes by default, it gets split into two. When those grow, each gets
+split again, and so on. Splits can also occur for other reasons, but ranges are important because
+they are the units that CockroachDB replicates and distributes to the nodes of the cluster.
+Here's a visualization showing some data getting divided up into seven ranges, represented by flat
+ovals, and six nodes for our cluster represented by the cylinders. Multiple copies of each range called
+replicas are distributed among the nodes to keep the cluster balanced. In CockroachDB, the default
+replication factor is three and that's what we see here: three replicas of each range. Moreover, each
+replica is always on a different node, they never double up. We could increase the replication factor
+to larger odd numbers such as 5 or 7 to increase the resiliency. Here's what 5 might look like.
+Higher replication factors do come at the cost of having to store, update and synchronize
+more replicas of each range in your cluster. Sometimes that's worth the cost, sometimes not.
+Note that your replication factor doesn't have to be the same for all of your data. You can set
+a different replication factor for each database or table if you like, or get even more granular if
+you have an Enterprise License. OK that was a lot, and fast, so let's review. In this lesson, we
+went over the basic model we should have in our head when we think about cluster data: the keyspace.
+We learned that CockroachDB takes the keyspace and divides it up into ranges, that it then
+makes copies of those ranges, called replicas, up to a replication factor, and that it distributes those
+replicas among the nodes of the cluster. Soon we'll see more, but that's it for this lesson.

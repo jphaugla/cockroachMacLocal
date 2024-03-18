@@ -1,0 +1,32 @@
+This history starts in 1970 with the publication of "A Relational Model of Data for Large Shared
+Data Banks", an academic paper by Edgar F Cobb. That original paper introduced a beautiful way
+to model data. You build a bunch of cross-linked tables and store any piece of data just once. Such
+a database could answer any question as long as the answer was stored somewhere within it.
+Disk space would be used efficiently at a time when storage was expensive. It was marvellous.
+It was the future. The first commercial implementation arrived in the late 1970s. And during the
+80s and 90s, relational databases grew increasingly dominant delivering rich indexes to make any query
+efficient. Table joins, a term for read operations that pull together separate records into one, and
+transactions, which meant a combination of reads and especially rights across the database but the
+need to happen together, were essential. SQL, the structured query language, became the language
+of data. And software developers learned to use it to ask for what they wanted and let
+the database decide how to deliver it. So strict guarantees were engineered in to prevent surprises.
+And in the first decade of the new millennium for many business models, that all went out the
+window. Relational databases architected around the assumption of running on a single machine lacked
+something that became essential with the advent of the internet. They were painfully difficult to
+scale out. The volume of data that can be created by millions or billions of networked humans and
+devices is more than any single server can handle. When the workload grows so heavy that no single
+computer can bear the load; when the most expensive hardware on the market would be brought to its
+knees by the weight of an application; the only path is to move forward from a single database
+server to a cluster of database nodes working in concert. For a legacy SQL database architected to
+run on a single server, this was a painful process requiring a massive investment of time and often
+trade-offs and sacrifices of many of the features that brought developers to these databases in the
+first place. By the late 2000s, SQL databases were still extremely popular but for those who needed
+scale, there were other options. NoSQL had arrived on scene. Google BigTable, HDFS and Cassandra are
+a few examples. These NoSQL databases were built to scale out easily and to tolerate
+node failures with minimal disruption but they came with compromises and functionality. Typically
+a lack of joins and transactions or limited indexes, shortcomings the developers had to
+constantly engineer their way around. Scale became cheap but relational guarantees didn't come with
+it. The legacy SQL databases have tried to fill the gap in the years since with add-on features
+to help reduce the pain of scaling out. At the same time NoSQL systems have been building out
+a subset of their missing SQL functionality. But none of these were architected from the ground up
+to deliver what we might call distributed SQL. And that's where CockroachDB comes in.

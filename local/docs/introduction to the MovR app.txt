@@ -1,0 +1,43 @@
+MovR is a toy ride sharing application  created to demonstrate and teach
+CockroachDB.
+You'll be using MovR throughout the lessons and
+labs in this course.
+Let's take a look at how to access  MovR in your browser and how to use
+the application UI.
+The MovR application runs on a local web server.
+When you first start the course, MovR  provides only limited functionality: the
+ability to view basic  information about the vehicles.
+As the labs progress, you'll be adding  additional functionality: more detailed
+vehicle information such as location history,
+the ability for users to log in and create rides, and so on.
+Let's take a tour of MovR in its final state.
+When you first visit the application,  you'll be prompted to sign in.
+If you don't have an account, you can create one.
+Once you're logged in, you'll be redirected  to the vehicles page, which shows
+the first 20 vehicles in the database.
+One of the features you'll be adding as  part of the labs is the ability to add
+a new vehicle to the list.
+If you click a vehicle's "see vehicle"  button, you'll go to the vehicle's
+detail page, showing additional  information about that vehicle.
+Another feature you'll add is  the ability to track a vehicle's
+location over time.
+Notice that the vehicle is shown as "available."
+This means that the "in-use" column in  the database is "FALSE," so the user can
+start a ride.
+This displays the ride detail page.
+From this page, you could complete the  ride, entering the final location and
+battery level, but we don't want to do that yet.
+Instead, we're going to view the user's rides.
+This page shows all the rides this user has taken.
+Completed rides are shown as inactive  and rides that are still in progress show
+as active.
+For active rides, we can go back  to the ride details and from here,
+we can end the ride.
+When you end a ride, MovR will  display a message with some
+summary details about the ride.
+And that's pretty much it!
+Let's review.
+In this course, you'll be using a  fictional ride sharing web application
+called MovR.
+In the labs, you'll be adding features like
+user login, location tracking, and the ability to add new vehicles.

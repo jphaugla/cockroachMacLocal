@@ -1,0 +1,1 @@
+docker run -it --rm cockroachdb/movr:latest --app-name "movr-load" --url "postgres://root@127.0.0.1:26257/movr?sslmode=disable" --num-threads 1 load --num-users 100 --num-rides 100 --num-vehicles 10 --city "boston" --city "new york" --city "washington dc" --city="amsterdam" --city="paris" --city="rome" --city="los angeles" --city="san francisco" --city="seattle"

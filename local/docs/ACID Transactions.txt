@@ -1,0 +1,27 @@
+Every transaction in CockroachDB guarantees ACID semantics spanning arbitrary tables and rows.
+There are no tuneable guarantees -  we offer the same strict guarantees at all times, even when data is
+distributed. This is extremely important since no single node is responsible for all of the
+data that affects a transaction and all nodes participating in a transaction must agree on
+whether or not it should be committed. If you're interested in learning more details, check out
+the included links in the lesson description. Let's go over what ACID means. ACID stands for
+Atomicity, Consistency, Isolation and Durability. It is a set of database transaction properties that
+guarantee validity in the event of failure, like system crashes, power failures and other errors.
+Atomicity means transactions are all or nothing. If any part of a transaction fails, the entire
+transaction is aborted and the database is left unchanged. If a transaction succeeds, all mutations
+are applied together. SQL operations never see any partially written states from transactions.
+Consistency enforces rules on data. This means that any data written in a transaction will be
+valid according to all defined rules, including SQL constraints. The Isolation property ensures
+that concurrent transactions, that is multiple transactions that happen at the same time, will
+leave the database in the same state that it would have been in if the transactions were
+executed serially or one after another. This is called serializable isolation. This ensures data
+correctness by preventing all anomalies allowed by weaker isolation levels. These are things like
+"dirty reads", "dirty rights" and other more subtle errors you may encounter in other databases. In
+contrast to most databases, CockroachDB always uses serializable isolation, which is the strongest of
+the four isolation levels defined by the SQL standard. It is a higher level of isolation
+than what many legacy SQL databases offer and it is stronger than the snapshot isolation
+level developed later. Durability guarantees that once a transaction is committed it will
+remain committed. In CockroachDB this means that every acknowledge right has been persisted
+consistently on a majority of replicas through the RAFT consensus algorithm. Acknowledged writes
+will never be rolled back, even in the case of node failure. All data access in CockroachDB is
+transactional, which guarantees data integrity. And because CockroachDB offers the strictest
+ACID guarantees by default, you can trust that your data will always be consistent.

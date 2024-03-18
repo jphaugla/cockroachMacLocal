@@ -1,0 +1,25 @@
+We've talked about the bar we set to be considered a basic distributed SQL database: scale, consistency
+resiliency and SQL with ACID transactions. All of it native and all of it baked into
+the architecture so that it happens smoothly. CockroachDB checks off every box and goes even
+further. First CockroachDB only uses serializable isolation, the highest level possible. Even many
+legacy SQL databases don't offer this. I don't have time to do the topic justice right now, but
+this means that every transaction behaved as if it had exclusive use of the entire cluster from start
+to finish. We said CockroachDB speaks SQL but not just that, it uses the open source PostgreSQL wire
+protocol tapping into a mature existing ecosystem of drivers and ORMs that developers have relied
+upon for years. We already said that the database should be distributed but in many cases there
+are legal restrictions that require data to never leave a certain region. Let's add geo-replication, a
+general term for the ability to control where your data resides in a globally distributed
+cluster to that requirement. Even if there are no legal concerns, you still shouldn't need to send a
+query halfway around the world when some of your nodes are sitting in a data center one city over.
+CockroachDB delivers this with its features that allow users to peg data to a particular locality.
+Additionally, a true distributed SQL database should be multi-cloud,
+meaning it shouldn't be tied to a specific cloud provider.
+Spanner might be a basic distributed SQL database but if you use it you're locked into Google Cloud.
+Your database should be able to run anywhere on any combination of bare metal servers or cloud
+instances from multiple providers. And to do so seamlessly CockroachDB doesn't care where it's
+running. A node is a node and any node that joins a cluster will work. Finally CockroachDB provides
+administration tools, both on the command line and with a graphical interface. It offers optimization
+tools such as our Cost-based Query Optimizer and baked in security including user authentication,
+authorization, audit logging and encryption of your data, both on disk and over the wire. There's
+so much to cover we won't be able to get to all of it in this getting started course. This is what you
+should expect from a true distributed SQL database and this is why people are flocking to CockroachDB.

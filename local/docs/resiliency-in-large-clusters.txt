@@ -1,0 +1,37 @@
+Having already seen a three node cluster respond to node failure, we're now going to look at what happens in a larger cluster, where each range is replicated to only a subset of the nodes.
+This is often done to scale out by the way, distributing ranges with their read and write workloads across more nodes, while keeping the replication factor constant.
+But it also has implications for resiliency, good implications.
+Let's consider a cluster with seven nodes, still with a replication factor of three for every range.
+The replicas are distributed more or less evenly, and so are the leaders.
+When all nodes are up, a query acts in a very similar manner to what occurs in a three node cluster.
+Reads are routed to lease holders, which route their answers back to the gateway, and from there to the client.
+Writes are similar but go through a distributed consensus before sending back acknowledgement.
+When a node goes down, the situation is also very similar to the three-node case, or it will be initially.
+As before, ranges with a lost leader will elect new ones within seconds.
+The cluster will remain available for reads and writes but it'll be in a fragile state.
+Now with the three node situation, the cluster had to remain in that fragile state indefinitely, until it could get a third node.
+Because prior to that, only two nodes were up and both already had replicas of every range.
+In this cluster though, CockroachDB has a trick up its sleeve.
+Here, we still have more than three nodes up and some of them don't have replicas from lost ranges.
+But they could.
+In a few minutes, five minutes by default, the cluster will stop waiting for that lost node to return and declare it dead.
+When that happens, the cluster will heal itself by up-replicating the under-replicated ranges to other nodes that don't yet have them.
+And go from this state, to something like this state.
+That node might be dead, but new replicas are put on the other nodes with each starting out by taking a consistent snapshot of the range before becoming a follower.
+At that point, the cluster has actually healed itself.
+All ranges are again fully replicated in spite of the lost node.
+The cluster is actually once again resilient and could tolerate another node failure without loss of availability.
+It's incredible! As long as the cluster doesn't suffer a second lost node before declaring the first one dead and up-replicating.
+Because guaranteeing availability in the face of two simultaneous node failures would be mathematically impossible.
+Unless we had a higher replication factor.
+If we set that to at least five, we'll still be guaranteed a majority for every range even if we lost two nodes together.
+Let's rewind the clock and this time set that replication factor to five.
+Here's what it would look like.
+Now the Raft Consensus Protocol will at this point require three copies for write to be in a majority, and that's durable, but otherwise it works the same.
+We'll kill two nodes, ranges with lost leaders will elect new ones within seconds, the cluster will continue serving reads and writes and just as before, those nodes will be declared dead five minutes later, at which point the cluster will up-replicate the affected ranges to the remaining nodes that don't yet have them.
+Once this happens, the cluster is again in a resilient state, able to maintain availability with up to two more simultaneous node failures.
+Though now, we're down to five nodes left and with a replication factor of five, all of our ranges are replicated to every node so any further node failures will result in persistent under-replicated ranges until the cluster can get back to five.
+And that's how resiliency works in CockroachDB.
+What have we covered? We've looked at how up-replication can result in a cluster healing itself back to a resilient state, whenever there are more nodes than a range's replication factor.
+We've learned that the process starts five minutes after a node is lost by default, and we've seen how increasing our replication factor beyond three empowers the cluster to be resilient even in the face of multiple, simultaneous node failures.
+And that's a lesson. 

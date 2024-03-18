@@ -1,0 +1,36 @@
+Having seen how the cluster breaks its data down into ranges, replicates and distributes
+those ranges to the various nodes, and uses the Raft protocol to keep cluster data durable and
+consistent, we're now going to look at how those nodes act together to keep data available in the
+face of node failure. Consider a three node cluster, the smallest size for a resilient
+production deployment, and let's connect a client. Whichever node the client connects to is called
+the gateway and it'll route queries wherever they belong. This is something we've been hinting at but
+now's a good time to make it explicit: the client can make any node its gateway just by connecting.
+Next, note that the leaders of the various ranges are not all on the same node; they're distributed
+roughly equally among the three nodes. Suppose that a client sends a query asking for rows
+from two of those ranges. Here's how the query might get answered while three nodes are up.
+First, the gateway would route the query to the appropriate leaseholders and since it's a read
+query they would send the results back to the gateway, which would combine them and answer the
+client's query. The only difference for a write is that there would be a consensus operation
+started by the leader for each Raft group but the flow would otherwise be similar with an
+acknowledgment returned by the leaseholder back to the gateway and onto the client.
+In a production cluster, there would be potentially many clients connected to each node, all doing this
+in parallel. OK so what happens when a node goes down? Well first if a client is connected to it
+that client would need to find a new gateway. This problem would be solved by using a load balancer
+which is crucial in production deployments. More interesting though is: what happens to
+those ranges in the moments immediately following node failure? Suppose a write comes in just as a
+node goes down. If the leader is on a node that's still up there's no problem, but for a range whose
+leader went down, there's a short-term problem: no leader. That Raft group will hold an election
+turning a follower into a new leader in a matter of seconds. The lease will be reassigned as well
+and the gateway will route the write to the new leaseholder. Once it knows that the remaining two
+nodes have achieved consensus, it'll acknowledge the write back to the gateway so the cluster is
+able to keep serving writes as well as reads with perhaps a few seconds of latency, but only if the
+query comes in at exactly the wrong time and it touches on a range that's temporarily leaderless.
+That said we are down to two nodes at this point and until that node comes back up while
+the cluster is able to serve reads and writes just fine it's also in a fragile state. The second node
+is lost, at this point consensus becomes impossible and the cluster will be unavailable until it's
+back to at least two nodes. We'll want to get back to a resilient state as quickly as we can.
+When that third node does come back up, it'll rejoin the cluster and, assuming it hasn't been
+too long, its ranges will rejoin the respective Raft groups as followers, replicating Raft entries
+and the cluster will again be in a resilient state. OK so what have we covered? Well we've learned
+how the gateway node works, we've seen how a three node cluster responds to maintain availability
+in the face of node failure, and we've seen how it recovers resiliency when the Lost node reconnects.

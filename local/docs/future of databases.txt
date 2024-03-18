@@ -1,0 +1,28 @@
+Let's start by asking "what is CockroachDB?" We're a distributed SQL database with a focus on online
+transactional processing, or OLTP, workloads. If you're not familiar that just means real-time
+operations with a client touching just a few records at a time. Even if lots of clients are
+doing this in parallel. As opposed to analytic workloads that might touch every row of a table
+and take hours to run. By distributed SQL, I mean neither a legacy SQL database like MySQL, nor a
+NoSQL database like Cassandra. But something that offers the rich functionality of a relational
+database as well as the scalability and resiliency of NoSQL. Let's dig into that a bit more. What does
+a database need exactly to qualify as distributed SQL? First it's got to be distributed, which is to
+say, it has to scale and do so seamlessly. This is where legacy SQL databases really fell short. Now
+that's not to say they can't scale. One can shard a Postgres database, and people do, but
+it's a lot of extra work. And anyone doing it has to be careful because it comes with
+compromises. Next up is consistency. And in this context we mean that readers always see writes
+and they see them appear in the same order in which those writes occur. This is an area where
+NoSQL often runs into issues. Resiliency is another area where legacy SQL databases fall
+short. They've added some resiliency features over the years but it's not smooth and it often
+requires some level of extra architecting and/or human intervention. We bookend the foundations of
+distributed SQL by saying that anything worth the name has to speak SQL because it's the language
+of data. We need to dig in here briefly because SQL without transactions is nothing, and I mean
+ACID transactions. Those ACID guarantees are important and they're hard enough to implement
+even on a single machine. When someone says ACID guarantees they're talking about four promises:
+First, transaction has to be Atomic. Meaning that all parts of a transaction happen or none.
+Second, they have to be consistent. Which in this context, means the transaction has to respect any
+rules imposed on the database, like foreign key constraints. And move from one consistent state
+to another with no inconsistent states visible to any readers at any time. Third, they have to
+be isolated. Meaning that even though the database might be able to parallelize some operations it
+can't permit it to look like they're interleaved. Finally, they have to be durable. When a transaction
+is committed, it stays committed, even in the face of node failure. Taken together these form a basic
+set of requirements for a distributed SQL. Next up we'll talk about what cockroachdb delivers
