@@ -1,5 +1,5 @@
-[cockroach cert}(https://www.cockroachlabs.com/docs/stable/cockroach-cert)
-this is for the second tab using openssl which [the full url is](https://www.cockroachlabs.com/docs/v23.2/create-security-certificates-openssl)
+[cockroach cert](https://www.cockroachlabs.com/docs/stable/cockroach-cert)
+this is for the second tab [using openssl](https://www.cockroachlabs.com/docs/v23.2/create-security-certificates-openssl)
 
 ## Step 1
 * clean out and recreate the certs and my-safe-directories
@@ -29,10 +29,10 @@ this is for the second tab using openssl which [the full url is](https://www.coc
 ```bash
 ./create-node-crt.sh
 ./verify-node.sh
+```
 ## Step 3
 * edit the client.cnf file [here is a sample client.cnf](client.cnf)
 * notice substitution on username to jhaugland
-```
 * create client certificate and key
 * this creates client.jhaugland.crt and client.jhaugland.key 
 * verify the client
