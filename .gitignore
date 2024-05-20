@@ -13,6 +13,8 @@ local_cert/my-safe-directory/
 local_cert/cockroach_certs/certs/
 local_cert/cockroach_certs/my-safe-directory/
 local_cert/openssl/certs/
+local_cert/openssl/index.txt*
+local_cert/openssl/serial.txt*
 local_cert/openssl/my-safe-directory/
 docker_cert/certs/
 docker_cert/my-safe-directory/

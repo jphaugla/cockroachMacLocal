@@ -1,2 +1,0 @@
-V	250520205500Z		01	unknown	/O=Cockroach
-V	250520205758Z		02	unknown	/O=Cockroach/CN=jhaugland
