@@ -42,4 +42,3 @@ this is for the second tab [using openssl](https://www.cockroachlabs.com/docs/v2
 ```
 ## Step 4
 * Start the cluster and connect using the linked files to [start](start-single.sh) and [connect](sql.sh)
-`
