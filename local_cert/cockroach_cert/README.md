@@ -1,4 +1,4 @@
-[cockroach cert\(https://www.cockroachlabs.com/docs/stable/cockroach-cert)
+[cockroach cert}(https://www.cockroachlabs.com/docs/stable/cockroach-cert)
 * clean out the certs dir
 ```bash
 rm -f certs/*
