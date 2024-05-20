@@ -11,7 +11,7 @@ this is for the second tab [using openssl](https://www.cockroachlabs.com/docs/v2
 * create the ca key
 * see [create-ca-key.sh](create-ca-key.sh)
 ```bash
-./create-ca-key.sh]
+./create-ca-key.sh
 ```
 * this creates ca.crt and resets text files
 * see [create-ca-crt.sh](create-ca-crt.sh)
@@ -31,9 +31,10 @@ this is for the second tab [using openssl](https://www.cockroachlabs.com/docs/v2
 ./create-node-csr.sh
 ```
 * create node crt and verify node
+* see [create-node-crt.sh](create-node-node-crt.sh)
 ```bash
-[./create-node-crt.sh](create-node-crt.sh)
-[./verify-node.sh](verify-node.sh)
+./create-node-crt.sh
+./verify-node.sh
 ```
 ## Step 3
 * edit the client.cnf file [here is a sample client.cnf](client.cnf)
