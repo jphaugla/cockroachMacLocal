@@ -5,7 +5,7 @@ req_extensions = extensions
 
 [ distinguished_name ]
 organizationName = Cockroach
-commonName = jhaugland
+commonName = root
 
 [ extensions ]
 subjectAltName = DNS:root

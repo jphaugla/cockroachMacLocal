@@ -1,1 +1,1 @@
-openssl x509 -in certs/client.jhaugland.crt -text | grep CN=
+openssl x509 -in certs/client.root.crt -text | grep CN=
