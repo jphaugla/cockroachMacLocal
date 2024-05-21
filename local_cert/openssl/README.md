@@ -59,9 +59,10 @@ OR
 ./startt3node.sh
 ./init.sh
 ```
-* Finally connect with [connect](sql.sh)
+* Finally connect with [connect](sql.sh) and create the user for Step 5
 ```bash
 ./sql.sh
+create user jhaugland;
 ```
 * Can validate the keys with [client-cert-list.sh](client-cert-list.sh)
 ```bash
@@ -73,4 +74,15 @@ Certificate directory: certs
   Node   | node.crt         | node.key        | 2025/05/21 | addresses: Jasons-MBP-3,localhost,174.141.204.193,127.0.0.1 |
   Client | client.root.crt  | client.root.key | 2025/05/21 | user: root                                                  |
 (3 rows)
+```
+## Step 5
+Create jhaugland user files
+* use [client2.cnf](client2.cnf)
+* generate key for second client using [create-client2.sh](create-client2.sh)
+* verify client 2 [verify-client2.sh](verify-client2.sh)
+. connect using client 2 [sql2.sh](sql2.sh)
+```bash
+./create-client2.sh
+./verify-client2.sh
+./sql2.sh
 ```

@@ -1,1 +1,1 @@
-cockroach start --certs-dir=certs --store=node2 --cert-principal-map=localhost:node,jhaugland:root --listen-addr=localhost:26258 --http-addr=localhost:18081 --join=localhost:26257,localhost:26258,localhost:26259 --background
+cockroach start --certs-dir=certs --store=node2 --cert-principal-map=localhost:node,root:root --listen-addr=localhost:26258 --http-addr=localhost:18081 --join=localhost:26257,localhost:26258,localhost:26259 --background
