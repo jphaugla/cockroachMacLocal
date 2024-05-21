@@ -48,4 +48,29 @@ this is for the second tab [using openssl](https://www.cockroachlabs.com/docs/v2
 ./verify-client.sh
 ```
 ## Step 4
-* Start the cluster and connect using the linked files to [start](start-single.sh) and [connect](sql.sh)
+* Start the cluster in single node format with [start](start-single.sh) 
+OR
+* Start the cluster as 3 nodes with these files
+  * see [start1node.sh](start1node.sh) [start2node.sh](start2node.sh) [start3node.sh](star32node.sh)
+* Initialize the cluster see [init.sh](init.sh)
+```bash
+./start1node.sh
+./start2node.sh
+./startt3node.sh
+./init.sh
+```
+* Finally connect with [connect](sql.sh)
+```bash
+./sql.sh
+```
+* Can validate the keys with [client-cert-list.sh](client-cert-list.sh)
+```bash
+./client-cert-list
+Certificate directory: certs
+  Usage  | Certificate File |    Key File     |  Expires   |                            Notes                            | Error
+---------+------------------+-----------------+------------+-------------------------------------------------------------+--------
+  CA     | ca.crt           |                 | 2025/05/21 | num certs: 1                                                |
+  Node   | node.crt         | node.key        | 2025/05/21 | addresses: Jasons-MBP-3,localhost,174.141.204.193,127.0.0.1 |
+  Client | client.root.crt  | client.root.key | 2025/05/21 | user: root                                                  |
+(3 rows)
+```
