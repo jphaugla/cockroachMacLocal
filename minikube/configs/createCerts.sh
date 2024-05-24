@@ -1,0 +1,1 @@
+cockroach cert create-node localhost 127.0.0.1 cockroachdb-public cockroachdb-public.cockroach cockroachdb-public.cockroach.svc.cluster.local *.cockroachdb *.cockroachdb.cockroach *.cockroachdb.cockroach.svc.cluster.local --certs-dir=certs --ca-key=my-safe-directory/ca.key

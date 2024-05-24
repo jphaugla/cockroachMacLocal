@@ -18,6 +18,8 @@ local_cert/openssl/serial.txt*
 local_cert/openssl/my-safe-directory/
 docker_cert/certs/
 docker_cert/my-safe-directory/
+minikube/configs/certs/
+minikube/configs/my-safe-directory/
 **node*/
 **node*/
 **node*/

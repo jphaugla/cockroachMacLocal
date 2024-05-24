@@ -1,0 +1,1 @@
+minikube config get memory
