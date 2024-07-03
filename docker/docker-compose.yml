@@ -48,3 +48,21 @@ services:
    volumes:
      - "${PWD}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
 
+ crdb_init:
+   hostname: crdb_init
+   container_name: crdb_init
+   build: ./scripts
+   environment:
+     - TARGET=crdb1
+     - COCKROACH_DEV_LICENSE=${TF_VAR_enterprise_license}
+     - COCKROACH_DEV_ORGANIZATION=${TF_VAR_cluster_organization}
+   healthcheck:
+     test: bash -c '[ -f /tmp/done.txt ] '
+     interval: 2s
+     retries: 10
+   volumes:
+     - "${PWD}/scripts:/scripts"
+   depends_on:
+     - crdb1
+     - crdb2
+     - crdb3

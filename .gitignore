@@ -8,6 +8,8 @@ node*/
 *.pem
 **cockroach-data/
 **cockroach_data/
+postgresml/
+tests/
 teleport/teleport/license.pem
 docker/teleport/data/
 docker/teleport/license.pem

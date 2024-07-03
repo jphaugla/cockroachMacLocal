@@ -1,0 +1,34 @@
+#
+# A Sample Teleport configuration file.
+#
+# Things to update:
+#  1. license.pem: Retrieve a license from your Teleport account https://teleport.sh
+#     if you are an Enterprise customer.
+#
+version: v3
+teleport:
+  storage:
+    type: cockroachdb
+    conn_string: postgresql://teleport@haproxy:26256/teleport?ssl-mode=insecure
+#     audit_events_uri: 
+#       - postgresql://root@haproxy:26257/defaultdb?insecure
+  nodename: localhost
+  data_dir: /var/lib/teleport
+  log:
+    output: stderr
+    severity: INFO
+    format:
+      output: text
+  ca_pin: ""
+  diag_addr: ""
+auth_service:
+  enabled: "yes"
+  listen_addr: 0.0.0.0:3025
+  proxy_listener_mode: multiplex
+ssh_service:
+  enabled: "no"
+proxy_service:
+  enabled: "yes"
+  https_keypairs: []
+  https_keypairs_reload_interval: 0s
+  acme: {}
