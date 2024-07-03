@@ -19,6 +19,13 @@ echo "running cockroach init with ${TARGET}"
 
 cockroach init --insecure --host=${TARGET}:26257
 
+echo "create teleport database"
+cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=disable" --insecure --execute "create database teleport;"
+echo "create teleport role"
+cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=disable" --insecure --execute "create user teleport;"
+echo "grant to teleport user"
+cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=disable" --insecure --execute "grant all on database teleport to teleport;"
+cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=disable" --insecure --execute "grant admin to teleport;"
 echo "SET CLUSTER SETTING enterprise.license = '${COCKROACH_DEV_LICENSE}'"
 cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=disable" --insecure --execute "SET CLUSTER SETTING enterprise.license = '${COCKROACH_DEV_LICENSE}';"
 echo "SET CLUSTER SETTING cluster.organization = '${COCKROACH_DEV_ORGANIZATION}'"
