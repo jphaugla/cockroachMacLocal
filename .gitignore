@@ -5,9 +5,12 @@ terraform.tfstate*
 .terraform*
 node*/
 *.log
+*.pem
 **cockroach-data/
 **cockroach_data/
-teleport/teleport/
+teleport/teleport/license.pem
+docker/teleport/data/
+docker/teleport/license.pem
 local_cert/certs/
 local_cert/my-safe-directory/
 local_cert/cockroach_certs/certs/
