@@ -9,7 +9,8 @@ version: v3
 teleport:
   storage:
     type: cockroachdb
-    conn_string: postgresql://root@haproxy:26256/defaultdb?ssl-mode=insecure
+#    conn_string: postgresql://root@haproxy:26256/defaultdb?ssl-mode=insecure
+    conn_string: postgresql://teleport@haproxy:26256/teleport?ssl-mode=insecure
 #     audit_events_uri: 
 #       - postgresql://root@haproxy:26257/defaultdb?insecure
   nodename: localhost
