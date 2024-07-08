@@ -1,4 +1,4 @@
-./stop.sh
+./stop_teleport.sh
 rm -rf cockroach_data
 rm -f teleport/data/debug.sock
 rm -rf teleport/data/proc
