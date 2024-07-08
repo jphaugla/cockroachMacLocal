@@ -1,5 +1,5 @@
 ./stop_teleport.sh
-rm -rf cockroach_data
+rm -rf cockroach-data
 rm -f teleport/data/debug.sock
 rm -rf teleport/data/proc
 rm -f teleport/data/webproxy_key.pem

@@ -7,9 +7,9 @@ services:
    ports:
      - "26257:26257"
      - "8080:8080"
-   command: start --insecure --store=node1 --listen-addr=crdb1:26257 --http-addr=crdb1:8080 --join=crdb1:26257,crdb2:26258,crdb3:26259
+   command: start --insecure --store=node1 --listen-addr=crdb1:26257 --http-addr=crdb1:8080 --join=crdb1:26257,crdb2:26258,crdb3:26259 --cache=1500000000
    volumes:
-     - "${PWD}/cockroach-data/crdb1:/cockroach/cockroach-data"
+     - "${PWD}/cockroach-data/node1:/cockroach/node1"
      - "${PWD}/scripts:/scripts"
 
  crdb2:
@@ -19,9 +19,9 @@ services:
    ports:
      - "26258:26258"
      - "8081:8081"
-   command: start --insecure --store=node2 --listen-addr=crdb2:26258 --http-addr=crdb2:8081 --join=crdb1:26257,crdb2:26258,crdb3:26259
+   command: start --insecure --store=node2 --listen-addr=crdb2:26258 --http-addr=crdb2:8081 --join=crdb1:26257,crdb2:26258,crdb3:26259 --cache=1500000000
    volumes:
-     - "${PWD}/cockroach-data/crdb2:/cockroach/cockroach-data"
+     - "${PWD}/cockroach-data/node2:/cockroach/node2"
      - "${PWD}/scripts:/scripts"
 
  crdb3:
@@ -31,9 +31,9 @@ services:
    ports:
      - "26259:26259"
      - "8082:8082"
-   command: start --insecure --store=node3 --listen-addr=crdb3:26259 --http-addr=crdb3:8082 --join=crdb1:26257,crdb2:26258,crdb3:26259
+   command: start --insecure --store=node3 --listen-addr=crdb3:26259 --http-addr=crdb3:8082 --join=crdb1:26257,crdb2:26258,crdb3:26259 --cache=1500000000
    volumes:
-     - "${PWD}/cockroach-data/crdb3:/cockroach/cockroach-data"
+     - "${PWD}/cockroach-data/node3:/cockroach/node3"
      - "${PWD}/scripts:/scripts"
 
  haproxy:
@@ -58,8 +58,8 @@ services:
      - COCKROACH_DEV_ORGANIZATION=${TF_VAR_cluster_organization}
    healthcheck:
      test: bash -c '[ -f /tmp/done.txt ] '
-     interval: 2s
-     retries: 10
+     interval: 5s
+     retries: 20
    volumes:
      - "${PWD}/scripts:/scripts"
    depends_on:

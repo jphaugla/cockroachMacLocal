@@ -14,7 +14,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM cockroachdb/cockroach:latest
+FROM cockroachdb/cockroach:latest-v23.2
 WORKDIR .
 COPY setup.sh setup.sh
 ENTRYPOINT setup.sh

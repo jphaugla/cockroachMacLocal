@@ -30,9 +30,8 @@ echo "SET CLUSTER SETTING enterprise.license = '${COCKROACH_DEV_LICENSE}'"
 cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=disable" --insecure --execute "SET CLUSTER SETTING enterprise.license = '${COCKROACH_DEV_LICENSE}';"
 echo "SET CLUSTER SETTING cluster.organization = '${COCKROACH_DEV_ORGANIZATION}'"
 cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=disable" --insecure --execute "SET CLUSTER SETTING cluster.organization = '${COCKROACH_DEV_ORGANIZATION}';"
-cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=disable" --insecure --execute 'SET CLUSTER SETTING kv.rangefeed.enabled = true;'
+cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=disable" --insecure --execute "SET CLUSTER SETTING kv.rangefeed.enabled = true;"
 
 echo "DONE " > /tmp/done.txt
 
 tail -f /dev/null
-exit
