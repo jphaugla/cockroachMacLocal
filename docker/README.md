@@ -1,2 +1,4 @@
-* [link for installing colima with hombrew](https://smallsharpsoftwaretools.com/tutorials/use-colima-to-run-docker-containers-on-macos/)
-* [Colima github](https://github.com/abiosoft/colima)
+# can run teleport from this directory
+* stop_teleport.sh
+* start_teleport.sh
+* clean_teleport.sh 

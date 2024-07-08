@@ -3,6 +3,8 @@ scripts to run cockroachDB local on a Mac, Docker with colima, and minikube
 ## useful links
 * [https://formulae.brew.sh/formula/colima](colima install on mac with homebrew)
 * [https://sebastian.marsching.com/wiki/bin/view/Mac/Colima/](Colima memory and cpu settings)
+* [link for installing colima with hombrew](https://smallsharpsoftwaretools.com/tutorials/use-colima-to-run-docker-containers-on-macos/)
+* [Colima github](https://github.com/abiosoft/colima)
 ## a variety of scenarios are available in subdirectories 
 * docker 
   * stop and start colima
