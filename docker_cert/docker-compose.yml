@@ -7,9 +7,9 @@ services:
    ports:
      - "26257:26257"
      - "8080:8080"
-   command: start --certs-dir=/certs --store=node1 --listen-addr=crdb1:26257 --http-addr=crdb1:8080 --join=crdb1:26257,crdb2:26258,crdb3:26259
+   command: start --certs-dir=/certs --store=node1 --listen-addr=crdb1:26257 --http-addr=crdb1:8080 --join=crdb1:26257,crdb2:26258,crdb3:26259 --cache=1500000000
    volumes:
-     - "${PWD}/cockroach-data/crdb1:/cockroach/cockroach-data"
+     - "${PWD}/cockroach-data/node1:/cockroach/node1"
      - "${PWD}/scripts:/scripts"
      - "${PWD}/certs/crdb1:/certs"
 
@@ -20,9 +20,9 @@ services:
    ports:
      - "26258:26258"
      - "8081:8081"
-   command: start --certs-dir=/certs --store=node2 --listen-addr=crdb2:26258 --http-addr=crdb2:8081 --join=crdb1:26257,crdb2:26258,crdb3:26259
+   command: start --certs-dir=/certs --store=node2 --listen-addr=crdb2:26258 --http-addr=crdb2:8081 --join=crdb1:26257,crdb2:26258,crdb3:26259 --cache=1500000000
    volumes:
-     - "${PWD}/cockroach-data/crdb2:/cockroach/cockroach-data"
+     - "${PWD}/cockroach-data/node2:/cockroach/node2"
      - "${PWD}/scripts:/scripts"
      - "${PWD}/certs/crdb2:/certs"
 
@@ -33,21 +33,43 @@ services:
    ports:
      - "26259:26259"
      - "8082:8082"
-   command: start --certs-dir=/certs --store=node3 --listen-addr=crdb3:26259 --http-addr=crdb3:8082 --join=crdb1:26257,crdb2:26258,crdb3:26259
+   command: start --certs-dir=/certs --store=node3 --listen-addr=crdb3:26259 --http-addr=crdb3:8082 --join=crdb1:26257,crdb2:26258,crdb3:26259 --cache=1500000000
    volumes:
-     - "${PWD}/cockroach-data/crdb3:/cockroach/cockroach-data"
+     - "${PWD}/cockroach-data/node3:/cockroach/node3"
      - "${PWD}/scripts:/scripts"
      - "${PWD}/certs/crdb3:/certs"
 
  haproxy:
    image: haproxy:alpine
    container_name: haproxy
+   hostname: haproxy
    depends_on:
      - crdb1
+     - crdb2
    ports:
      - 80:80
      - 2001:2001
      - 26256:26256
    volumes:
      - "${PWD}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+     - "${PWD}/certs/haproxy:/certs"
 
+ crdb_init:
+    hostname: crdb_init
+    container_name: crdb_init
+    build: ./scripts
+    environment:
+      - TARGET=crdb1
+      - COCKROACH_DEV_LICENSE=${TF_VAR_enterprise_license}
+      - COCKROACH_DEV_ORGANIZATION=${TF_VAR_cluster_organization}
+    healthcheck:
+      test: bash -c '[ -f /tmp/done.txt ] '
+      interval: 5s
+      retries: 20
+    volumes:
+      - "${PWD}/scripts:/scripts"
+      - "${PWD}/certs:/certs"
+    depends_on:
+      - crdb1
+      - crdb2
+      - crdb3
