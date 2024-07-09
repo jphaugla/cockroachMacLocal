@@ -13,6 +13,8 @@ tests/
 teleport/teleport/license.pem
 docker/teleport/data/
 docker/teleport/license.pem
+docker_cert/teleport/data/
+docker_cert/teleport/license.pem
 local_cert/certs/
 local_cert/my-safe-directory/
 local_cert/cockroach_certs/certs/
