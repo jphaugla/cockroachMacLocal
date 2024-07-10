@@ -1,1 +1,1 @@
-docker exec crdb1 cockroach init --certs-dir=/certs --host=crdb1:26257
+docker exec crdb_init cockroach init --certs-dir=/certs --host=crdb1:26257

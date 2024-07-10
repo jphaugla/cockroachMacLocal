@@ -1,2 +1,2 @@
-docker-compose build
-docker-compose -f docker-compose-teleport.yml -f docker-compose.yml up -d
+# run teleport with crdb, crdb_init client, and psql
+docker-compose -f docker-compose-teleport.yml -f docker-compose.yml -f docker-compose-psql.yml up -d

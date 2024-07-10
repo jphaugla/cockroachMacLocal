@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  pg_client:
+    hostname: pg_client
+    container_name: pg_client
+    volumes:
+      - "${PWD}/scripts:/scripts"
+      - "${PWD}/certs:/certs"
+    build:
+      context: ./psql
+      dockerfile: PgDockerFile
+    command: tail -f /dev/null
+    restart: unless-stopped
