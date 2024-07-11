@@ -5,8 +5,11 @@
 * ./init_teleport.sh
   * handles initializing teleport by doing the following steps
     * builds the crdb_init image using docker-compose build
-    * ./build_keys.sh
-      * this builds the certificates using a crdb container
+    * choose to build keys using cockroach cert or with openssl by uncommenting/commenting
+      * ./build_keys.sh
+        * this builds the certificates using a crdb container with cockroach cert command
+      * ./build_openssl_keys.sh
+        * this builds the certificates using an openssl container with openssl commands
     * ./build_psql.sh
       * this builds the a client psql container for debugging connectivity
 * ./start_teleport.sh
