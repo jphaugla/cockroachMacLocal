@@ -2,17 +2,15 @@ version: '3.9'
 
 services:
 
- crdb:
-   image: cockroachdb/cockroach:latest
-   container_name: gen-certs
-   hostname: gen-certs
-   build: ./tls-init
-   ports:
-     - "26257:26257"
-     - "8080:8080"
-   command: bash -c /tls-init-openssl/setup.sh
+ openssl:
+   image: alpine:latest
+   container_name: openssl
+   hostname: openssl
+   build: 
+     context: ./tls-init-openssl
+     dockerfile: Dockerfile
+   command: sh -c /tls-init/setup.sh
    volumes:
-     - "${PWD}/cockroach-data/crdb:/cockroach/cockroach-data"
      - "${PWD}/certs:/certs"
      - "${PWD}/my-safe-directory:/my-safe-directory"
      - "${PWD}/tls-init-openssl:/tls-init"

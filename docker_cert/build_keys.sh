@@ -1,4 +1,4 @@
-docker-compose down -f docker-compose-gen-certs.yml
+docker-compose -f docker-compose-gen-certs.yml down
 rm -rf certs/crdb*
 rm -rf certs/haproxy*
 rm -f certs/client*

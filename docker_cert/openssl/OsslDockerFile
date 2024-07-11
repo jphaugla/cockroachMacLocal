@@ -1,0 +1,4 @@
+FROM alpine:latest
+# install openssl
+RUN apk add --update openssl 
+CMD ["sh"]
