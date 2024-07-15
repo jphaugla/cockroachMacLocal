@@ -10,14 +10,15 @@ scripts to run cockroachDB local on a Mac, Docker with colima, and minikube
   * stop and start colima
   * run cockroachdb on one node without tls
   * run 3 cockroachdb nodes with ha_proxy without tls
-  * run teleport with cockroachdb
+  * run teleport with cockroachdb - license.pem needed from teleport
   * run cockroach bank workload 
-  * add enterprise license key using docker-compose
+  * add cockroach enterprise license key using docker-compose
 * docker_cert
   * stop and start colima
-  * generate cockroach certificates
+  * generate cockroach certificates using *cockroach cert* or using *openssl*
   * run 3 cockroachdb nodes with ha_proxy and tls
-  * run cockroach bank workload 
+  * add cockroach enterprise license key using docker-compose
+  * run teleport with cockroachdb - license.pem needed from teleport
 * local
   * run cockroachdb nodes locally with unique port numbers on mac
   * run single node or multiple nodes
