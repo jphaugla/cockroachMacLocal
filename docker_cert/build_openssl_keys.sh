@@ -9,4 +9,4 @@ docker-compose -f docker-compose-openssl-certs.yml up
 echo "after docker up"
 # docker exec -it openssl sh -c "/tls-init/setup.sh"
 echo "after setup"
-# docker-compose -f docker-compose-openssl-certs.yml down 
+docker-compose -f docker-compose-openssl-certs.yml down 

@@ -8,4 +8,4 @@ req_extensions = extensions
 organizationName = Cockroach
 
 [ extensions ]
-subjectAltName = critical,DNS:Jasons-MBP-3,DNS:localhost,DNS:haproxy
+subjectAltName = critical,DNS:Jasons-MBP-3,DNS:localhost,DNS:haproxy,DNS:is-principal

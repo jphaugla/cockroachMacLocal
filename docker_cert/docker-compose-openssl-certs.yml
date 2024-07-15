@@ -14,3 +14,4 @@ services:
      - "${PWD}/certs:/certs"
      - "${PWD}/my-safe-directory:/my-safe-directory"
      - "${PWD}/tls-init-openssl:/tls-init"
+     - "${PWD}/openssl-cnf:/openssl-cnf"
