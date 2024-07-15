@@ -20,7 +20,7 @@
 * ./clean_teleport.sh
   * call stop_teleport.sh 
   * removes temporary files
-## Utility scripts
+## Utility scripts in githome directory
 * ./bash_crdb.sh
   * get a bash window to a crdb container, must pass node numer 1-3
 * ./bash_crdb_client.sh
@@ -28,7 +28,7 @@
 * ./check_node_cert.sh
   * check the node certificate
 * ./init.sh
-  * initialize the cockroach cluster using crdb_init for the keys
+  * initialize the cockroach cluster using crdb_init for the keys.  Not needed normally as crdb-init does this
 * ./node.sh
   * get cockroach node status.  Pass node number 1-3 
 * ./psql.sh
@@ -40,3 +40,10 @@
 * ./sql.sh
   * get cockroach sql shell.  Pass node number 0-3.  Note this uses the crdb_init to resolve the client keys.  node 0 is actually haproxy
   
+## Utility scripts in scripts subdirectory
+* ./test_connect.sh
+  * this only works using crdb_init.   Login with docker exec -it crdb_init bash
+  * get a sql connection using the client keys can choose between node number 0-3. (0 is haproxy)  Also, can edit script to switch user and database
+* ./curl.sh
+  * this only works using one of the crdb nodes.   Login with docker exec -it crdb1 bash
+  * test a curl connection using the client keys can choose between node number 0-3. (0 is haproxy)
