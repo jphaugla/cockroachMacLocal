@@ -14,6 +14,7 @@
       * this builds the a client psql container for debugging connectivity
 * ./start_teleport.sh
   * starts crdb containers, crdb client container, psql, and teleport
+  * NOTE:  must change the start line in docker-compose.yml for each of the 3 cockroach nodes depending on if using cockroach cert or cert-principal-map
 * ./stop_teleport.sh
   * stops all the teleport related containers
 * ./clean_teleport.sh
