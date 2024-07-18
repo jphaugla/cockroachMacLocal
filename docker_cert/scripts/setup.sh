@@ -21,10 +21,13 @@ cockroach init --host=${TARGET}:26257 --certs-dir=/certs
 
 echo "create teleport database"
 cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=verify-full&sslrootcert=/certs/ca.crt&sslcert=/certs/client.root.crt&sslkey=/certs/client.root.key" --execute "create database teleport;"
+echo "create teleport audit database"
+cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=verify-full&sslrootcert=/certs/ca.crt&sslcert=/certs/client.root.crt&sslkey=/certs/client.root.key" --execute "create database teleport_audit;"
 echo "create teleport role"
 cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=verify-full&sslrootcert=/certs/ca.crt&sslcert=/certs/client.root.crt&sslkey=/certs/client.root.key" --execute "create user teleport;"
 echo "grant to teleport user"
 cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=verify-full&sslrootcert=/certs/ca.crt&sslcert=/certs/client.root.crt&sslkey=/certs/client.root.key" --execute "grant all on database teleport to teleport;"
+cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=verify-full&sslrootcert=/certs/ca.crt&sslcert=/certs/client.root.crt&sslkey=/certs/client.root.key" --execute "grant all on database teleport_audit to teleport;"
 cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=verify-full&sslrootcert=/certs/ca.crt&sslcert=/certs/client.root.crt&sslkey=/certs/client.root.key" --execute "grant admin to teleport;"
 echo "SET CLUSTER SETTING enterprise.license = '${COCKROACH_DEV_LICENSE}'"
 cockroach sql --url "postgresql://root@${TARGET}:26257/?sslmode=verify-full&sslrootcert=/certs/ca.crt&sslcert=/certs/client.root.crt&sslkey=/certs/client.root.key" --execute "SET CLUSTER SETTING enterprise.license = '${COCKROACH_DEV_LICENSE}';"

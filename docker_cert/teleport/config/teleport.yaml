@@ -10,9 +10,8 @@ teleport:
   storage:
     type: cockroachdb
     conn_string: postgresql://teleport@haproxy:26256/teleport?sslmode=verify-full&sslrootcert=/certs/ca.crt&sslcert=/certs/client.teleport.crt&sslkey=/certs/client.teleport.key
-#    conn_string: postgresql://teleport@crdb3:26259/teleport?sslmode=verify-full&sslrootcert=/certs/ca.crt&sslcert=/certs/client.teleport.crt&sslkey=/certs/client.teleport.key
-#     audit_events_uri: 
-#       - postgresql://root@haproxy:26257/defaultdb?insecure
+    audit_events_uri: 
+      - postgresql://teleport@haproxy:26256/teleport_audit?sslmode=verify-full&sslrootcert=/certs/ca.crt&sslcert=/certs/client.teleport.crt&sslkey=/certs/client.teleport.key
   nodename: localhost
   data_dir: /var/lib/teleport
   log:
