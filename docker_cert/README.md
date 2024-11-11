@@ -1,18 +1,25 @@
 # generate CRDB certs and run with those certs
-* [link for installing colima with hombrew](https://smallsharpsoftwaretools.com/tutorials/use-colima-to-run-docker-containers-on-macos/)
+* [link for installing colima with homebrew](https://smallsharpsoftwaretools.com/tutorials/use-colima-to-run-docker-containers-on-macos/)
 * [Colima github](https://github.com/abiosoft/colima)
 ## Steps
-* ./init_teleport.sh
+* [./init_teleport.sh](./init_teleport.sh)
   * handles initializing teleport by doing the following steps
     * builds the crdb_init image using docker-compose build
     * choose to build keys using cockroach cert or with openssl by uncommenting/commenting
-      * ./build_keys.sh
+      * [./build_keys.sh](./build_keys.sh)
         * this builds the certificates using a crdb container with cockroach cert command
-      * ./build_openssl_keys.sh
+      * [./build_openssl_keys.sh](./build_openssl_keys.sh)
         * this builds the certificates using an openssl container with openssl commands
-    * ./build_psql.sh
+        * within the container this [tls setup script](./tls-init-openssl/setup.sh) is executed
+          * this setup script calls the following scripts in the same tls-init-openssl directory to build the keys
+            * [./tls-init-openssl/clean.sh](./tls-init-openssl/clean.sh)
+            * [./tls-init-openssl/create-ca.sh](./tls-init-openssl/create-ca.sh)
+            * [./tls-init-openssl/create-node-certs.sh](./tls-init-openssl/create-node-certs.sh) for each of the three nodes using configuration files in [./openssl-cnd](./openssl-cnf)
+            * [./tls-init-openssl/create-client.sh](./tls-init-openssl/create-client.sh)
+            * [./tls-init-openssl/create-der-certs.sh](./tls-init-openssl/create-der-certs.sh) 
+    * [./build_psql.sh](./build_psql.sh)
       * this builds the a client psql container for debugging connectivity
-* ./start_teleport.sh
+* [./start_teleport.sh](./start_teleport.sh)
   * starts crdb containers, crdb client container, psql, and teleport
   * NOTE:  must change the start line in docker-compose.yml for each of the 3 cockroach nodes depending on if using cockroach cert or cert-principal-map
 * ./stop_teleport.sh
