@@ -1,0 +1,10 @@
+services:
+
+  postgres_db:
+    container_name: spicedb_postgres
+    image: "postgres:latest"
+    ports:
+      - "5432:5432"
+    environment:
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+      - "POSTGRES_DB=${POSTGRES_DBNAME}"

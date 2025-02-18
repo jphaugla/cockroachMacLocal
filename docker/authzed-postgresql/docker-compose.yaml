@@ -1,0 +1,76 @@
+services:
+ crdb1:
+   image: cockroachdb/cockroach:latest
+   # image: cockroachdb/cockroach:latest-v23.2
+   # image: cockroachdb/cockroach:arm64-v24.1.2
+   container_name: crdb1
+   hostname: crdb1
+   ports:
+     - "26257:26257"
+     - "8080:8080"
+     - "443:443"
+   command: start --insecure --store=node1 --listen-addr=crdb1:26257 --http-addr=crdb1:8080 --join=crdb1:26257,crdb2:26258,crdb3:26259 --cache=1500000000
+   volumes:
+     - "${PWD}/cockroach-data/node1:/cockroach/node1"
+     - "${PWD}/scripts:/scripts"
+
+ crdb2:
+   # image: cockroachdb/cockroach:latest-v23.2
+   # image: cockroachdb/cockroach:arm64-v24.1.2
+   image: cockroachdb/cockroach:latest
+   container_name: crdb2
+   hostname: crdb2
+   ports:
+     - "26258:26258"
+     - "8081:8081"
+   command: start --insecure --store=node2 --listen-addr=crdb2:26258 --http-addr=crdb2:8081 --join=crdb1:26257,crdb2:26258,crdb3:26259 --cache=1500000000
+   volumes:
+     - "${PWD}/cockroach-data/node2:/cockroach/node2"
+     - "${PWD}/scripts:/scripts"
+
+ crdb3:
+   # image: cockroachdb/cockroach:latest-v23.2
+   image: cockroachdb/cockroach:latest
+   # image: cockroachdb/cockroach:arm64-v24.1.2
+   container_name: crdb3
+   hostname: crdb3
+   ports:
+     - "26259:26259"
+     - "8082:8082"
+   command: start --insecure --store=node3 --listen-addr=crdb3:26259 --http-addr=crdb3:8082 --join=crdb1:26257,crdb2:26258,crdb3:26259 --cache=1500000000
+   volumes:
+     - "${PWD}/cockroach-data/node3:/cockroach/node3"
+     - "${PWD}/scripts:/scripts"
+
+ haproxy:
+   image: haproxy:alpine
+   container_name: haproxy
+   depends_on:
+     - crdb1
+   ports:
+     - 80:80
+     - 2001:2001
+     - 26256:26256
+   volumes:
+     - "${PWD}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+   command: ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
+
+ crdb_init:
+   hostname: crdb_init
+   container_name: crdb_init
+   build: ./scripts-spice
+   environment:
+     - TARGET=crdb1
+     - POSTGRES_USER=${POSTGRES_USER}
+     - POSTGRES_DBNAME=${POSTGRES_DBNAME}
+     - POSTGRES_PASSWD=${POSTGRES_PASSWD}
+   healthcheck:
+     test: bash -c '[ -f /tmp/done.txt ] '
+     interval: 5s
+     retries: 20
+   volumes:
+     - "${PWD}/scripts-spice:/scripts"
+   depends_on:
+     - crdb1
+     - crdb2
+     - crdb3

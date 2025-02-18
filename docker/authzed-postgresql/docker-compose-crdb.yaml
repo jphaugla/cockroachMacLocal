@@ -1,0 +1,28 @@
+services:
+  spicedb:
+    container_name: spicedb_authz
+    image: "authzed/spicedb:latest"
+    command: "serve"
+    restart: "always"
+    ports:
+      - "8080:8080"  # Dashboard
+      - "9090:9090"  # Metrics
+      - "50051:50051" # gRPC API
+    environment:
+      - "SPICEDB_GRPC_PRESHARED_KEY=${SPICEDB_GRPC_PRESHARED_KEY}"  # Shared key for API authentication
+      - "SPICEDB_DATASTORE_ENGINE=postgres"  # Using PostgreSQL as the storage backend
+      - "SPICEDB_DATASTORE_CONN_URI=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_db:5432/spicedb?sslmode=disable"
+    depends_on:
+      - "migrate"
+
+  migrate:
+    container_name: spicedb_migrate
+    image: "authzed/spicedb:latest"
+    command: "migrate head"
+    restart: "on-failure"
+    environment:
+      - "SPICEDB_DATASTORE_ENGINE=postgres"
+      - "SPICEDB_DATASTORE_CONN_URI=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_db:5432/spicedb?sslmode=disable"
+    depends_on:
+      - "postgres_db"
+
