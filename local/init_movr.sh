@@ -1,1 +1,1 @@
-cockroach workload init movr 'postgresql://root@localhost:26256?sslmode=disable'
+cockroach workload init movr 'postgresql://root@127.0.0.1:26257?sslmode=disable'
