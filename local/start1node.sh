@@ -1,1 +1,1 @@
-cockroach start --insecure --store=node1 --listen-addr=localhost:26257 --http-addr=localhost:8080 --join=localhost:26257,localhost:26258,localhost:26259 --locality=region=us-east,zone=a --background
+cockroach start --insecure --store=node1 --listen-addr=0.0.0.0:26257 --http-addr=0.0.0.0:8080 --join=0.0.0.0:26257,0.0.0.0:26258,0.0.0.0:26259 --locality=region=us-east,zone=a --background

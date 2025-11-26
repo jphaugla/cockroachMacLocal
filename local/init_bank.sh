@@ -1,1 +1,1 @@
-cockroach workload init bank 'postgresql://root@localhost:26256?sslmode=disable'
+cockroach workload init bank 'postgresql://root@localhost:26257?sslmode=disable'

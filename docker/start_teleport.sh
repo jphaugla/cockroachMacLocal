@@ -1,2 +1,2 @@
-docker-compose -f docker-compose-teleport.yml -f docker-compose.yml build
-docker-compose -f docker-compose-teleport.yml -f docker-compose.yml up -d
+docker-compose -f docker-compose-teleport.yml -f docker-compose-1.yml build
+docker-compose -f docker-compose-teleport.yml -f docker-compose-1.yml up -d
