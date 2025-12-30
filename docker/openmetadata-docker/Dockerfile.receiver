@@ -1,0 +1,17 @@
+# Use a minimal Python image
+FROM python:3.11-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Install Flask (required by webhook_receiver.py)
+RUN pip install Flask
+
+# Copy the application code
+COPY webhook_receiver.py /app/
+
+# Expose the port (Docker Compose handles the host mapping)
+EXPOSE 5000
+
+# Run the application
+CMD ["python", "webhook_receiver.py"]

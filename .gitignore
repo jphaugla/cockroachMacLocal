@@ -13,6 +13,7 @@ tests/
 teleport/teleport/license.pem
 docker/teleport/data/
 docker/teleport/license.pem
+docker/openmetadata-docker/docker-volume/
 docker_cert/teleport/data/
 docker_cert/teleport/license.pem
 local_cert/certs/
