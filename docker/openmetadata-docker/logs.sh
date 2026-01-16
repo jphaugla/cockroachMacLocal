@@ -1,1 +1,0 @@
-docker logs openmetadata_server
